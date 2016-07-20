@@ -5,7 +5,7 @@ var githubHelpers = require('../utils/githubHelpers');
 var ResultsContainer = React.createClass({
     getInitialState:function(){
         return{
-            isLoading:false,
+            isLoading:true,
             scores:[]
         }
     },
