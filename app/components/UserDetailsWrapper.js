@@ -12,7 +12,7 @@ function UserDetailsWrapper(props){
     )
 }
 
-UserDetailsWrapper.PropTypes = {
+UserDetailsWrapper.propTypes = {
     header: PropTypes.string.isRequired
 }
 

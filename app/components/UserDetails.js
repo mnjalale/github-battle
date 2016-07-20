@@ -18,7 +18,7 @@ function UserDetails(user){
     )
 }
 
-UserDetails.PropTypes = {
+UserDetails.propTypes = {
     score: PropTypes.number,
     info: PropTypes.shape({
         avatar_url:PropTypes.string.isRequired,
