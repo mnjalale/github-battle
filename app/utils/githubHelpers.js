@@ -4,13 +4,13 @@ const id = 'Your_Client_Id';
 const sec='Your_Secret_Id';
 const param = "?client_id" + id + "&client_secret" + sec;
 
-function getUserInfo(username){
-    return axios.get('http://api.github.com/users/' + username);
+function getUserInfo(username='mnjalale'){
+    return axios.get(`http://api.github.com/users/${username}`);
     //return axios.get('http://api.github.com/users/' + username + param)
 }
 
-function getRepos(username){
-    return axios.get('http://api.github.com/users/' + username + '/repos?per_page=100');
+function getRepos(username='mnjalale'){
+    return axios.get(`http://api.github.com/users/${username}/repos?per_page=100`);
 }
 
 function getTotalStars(repos){
@@ -23,7 +23,7 @@ function getPlayersData(player){
         .then((totalStars)=>{
             return {
                 followers: player.followers,
-                totalStars: totalStars
+                totalStars
             };
         });
 }
