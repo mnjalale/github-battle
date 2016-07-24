@@ -1,6 +1,6 @@
-/**
- * Created by Martin on 18-Jul-16.
- */
+export const transparentBg = { background:'transparent' }
+export const space = { marginTop: '25px'}
+
 var styles = {
     transparentBg:{
         background:'transparent'
