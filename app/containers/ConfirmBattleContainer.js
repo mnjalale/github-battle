@@ -7,25 +7,25 @@ const ConfirmBattleContainer = React.createClass({
     contextTypes:{
         router: React.PropTypes.object.isRequired
     },
-    getInitialState: function(){
+    getInitialState(){
         return {
             isLoading:true,
             playersInfo:[]
         }
     },
-    componentDidMount:function(){
+    componentDidMount(){
         const { query } = this.props.location;
         //https://egghead.io/playlists/the-this-key-word-250c37d9
         getPlayersInfo([query.playerOne,query.playerTwo])
-            .then(function(players){
+            .then((players)=>{
                 this.setState({
                     playersInfo:players,
                     isLoading:false
 
                 });
-            }.bind(this));
+            });
     },
-    handleInitiateBattle:function(){
+    handleInitiateBattle(){
         this.context.router.push({
             pathname:'/results',
             state:{
@@ -33,7 +33,7 @@ const ConfirmBattleContainer = React.createClass({
             }
         });
     },
-    render: function(){
+    render(){
         return(
             <ConfirmBattle
                 isLoading={this.state.isLoading}
