@@ -1,18 +1,17 @@
-import React from 'react';
+import React,{Component} from 'react';
 import ConfirmBattle from '../components/ConfirmBattle';
 import { getPlayersInfo } from '../utils/githubHelpers';
 
 
-const ConfirmBattleContainer = React.createClass({
-    contextTypes:{
-        router: React.PropTypes.object.isRequired
-    },
-    getInitialState(){
-        return {
+class ConfirmBattleContainer extends Component{
+    constructor(){
+        super();
+        this.state = {
             isLoading:true,
             playersInfo:[]
         }
-    },
+    }
+
     async componentDidMount(){
         const { query } = this.props.location;
         //https://egghead.io/playlists/the-this-key-word-250c37d9
@@ -26,7 +25,8 @@ const ConfirmBattleContainer = React.createClass({
         }catch(error){
             console.log('Errors occurred in ConfirmBattle Container: ' + error);
         }
-    },
+    }
+
     handleInitiateBattle(){
         this.context.router.push({
             pathname:'/results',
@@ -34,15 +34,20 @@ const ConfirmBattleContainer = React.createClass({
                 playersInfo: this.state.playersInfo
             }
         });
-    },
+    }
+
     render(){
         return(
             <ConfirmBattle
                 isLoading={this.state.isLoading}
-                onInitiateBattle={this.handleInitiateBattle}
+                onInitiateBattle={()=>this.handleInitiateBattle()}
                 playersInfo={this.state.playersInfo}/>
         )
     }
-});
+}
+
+ConfirmBattleContainer.contextTypes ={
+    router: React.PropTypes.object.isRequired
+}
 
 export default ConfirmBattleContainer;
