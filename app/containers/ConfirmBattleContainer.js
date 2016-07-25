@@ -13,17 +13,19 @@ const ConfirmBattleContainer = React.createClass({
             playersInfo:[]
         }
     },
-    componentDidMount(){
+    async componentDidMount(){
         const { query } = this.props.location;
         //https://egghead.io/playlists/the-this-key-word-250c37d9
-        getPlayersInfo([query.playerOne,query.playerTwo])
-            .then((players)=>{
-                this.setState({
-                    playersInfo:players,
-                    isLoading:false
+        try{
+            let players = await getPlayersInfo([query.playerOne,query.playerTwo]);
+            this.setState({
+                playersInfo:players,
+                isLoading:false
 
-                });
             });
+        }catch(error){
+            console.log('Errors occurred in ConfirmBattle Container: ' + error);
+        }
     },
     handleInitiateBattle(){
         this.context.router.push({

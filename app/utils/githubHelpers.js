@@ -17,15 +17,17 @@ function getTotalStars(repos){
     return repos.data.reduce((prev,current)=> prev + current.stargazers_count,0);
 }
 
-function getPlayersData(player){
-    return getRepos(player.login)
-        .then(getTotalStars)
-        .then((totalStars)=>{
-            return {
-                followers: player.followers,
-                totalStars
-            };
-        });
+async function getPlayersData(player){
+    try{
+        let repos = await getRepos(player.login);
+        let totalStars = await getTotalStars(repos);
+        return {
+            followers: player.followers,
+            totalStars
+        };
+    }catch(error){
+        console.warn('Errors occurred in getPlayersData: ' + error);
+    }
 }
 
 function calculateScores(players){
@@ -36,27 +38,24 @@ function calculateScores(players){
 
 }
 
-export function getPlayersInfo(players){
-    return axios.all(players.map((username)=>{
-        return getUserInfo(username);
-    })).then((info)=>{
-        return info.map((user)=>{
-            return user.data;
-        });
-    }).catch((err)=>{
+export async function getPlayersInfo(players){
+    try{
+        let info = await Promise.all(players.map((username)=>getUserInfo(username)));
+        return info.map((user)=> user.data);
+    }catch(error){
         console.warn('Error in getPlayersInfo',err);
-    });
+    }
 }
 
-export function battle(players){
-    const playerOneData = getPlayersData(players[0]);
-    const playerTwoData = getPlayersData(players[1]);
-
-    return axios.all([playerOneData,playerTwoData])
-        .then(calculateScores)
-        .catch((err)=>{
-            console.log("Error in getPlayersInfo: " + err);
-        });
+export async function battle(players){
+    try{
+        const playerOneData = getPlayersData(players[0]);
+        const playerTwoData = getPlayersData(players[1]);
+        const data = await Promise.all([playerOneData,playerTwoData]);
+        return await calculateScores(data);
+    }catch(error){
+        console.warn('Error in getPlayersInfo: ',error)
+    }
 }
 
 
